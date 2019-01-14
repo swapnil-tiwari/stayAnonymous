@@ -1,0 +1,7 @@
+users{
+    sno,uid,username,email,imgurl
+}
+messages
+{
+    uid,msgs
+}

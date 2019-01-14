@@ -1,0 +1,25 @@
+{
+  "name": "ctg-webview",
+  "version": "1.0.0",
+  "description": "Integrated with ctg API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swapnil-tiwari/ctg-Webview-Integrated-.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/swapnil-tiwari/ctg-Webview-Integrated-/issues"
+  },
+  "homepage": "https://github.com/swapnil-tiwari/ctg-Webview-Integrated-#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mysql": "^2.16.0"
+  }
+}

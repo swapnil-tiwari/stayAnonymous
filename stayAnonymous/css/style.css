@@ -1,0 +1,181 @@
+html,body
+{
+	height: 100%;
+	width: 100%;
+	margin:0px;
+	padding: 0px;
+	overflow-x: hidden;
+	scroll-behavior: smooth;
+}
+.main-cont
+{
+	height: 100%;
+	width: 100%;
+	position: relative;
+}
+.background
+{
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: -1;
+    background: #0a0a0a;
+}
+.main-header
+{
+    margin-bottom: 30px;
+    width: 40%;
+    margin:auto;
+    background: #f0ebea;
+    margin-top: 15vh;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: -10px 11px 20px 5px #000000;
+
+    
+}
+.content-overlay
+{
+    position: absolute;
+    min-height: 100%;
+    width: 100%;
+    background: rgba(27, 15, 39, 0.74);
+
+}
+.head_1
+{
+    font-size:50px;
+    font-family:'Caveat', cursive !important;
+}
+.main-header hr{
+    width: 50%;
+    border-top: 1px solid #413d3d;
+}
+.abt
+{
+    font-size:20px;
+    font-family: 'Comfortaa', cursive;
+}
+.btn-sml
+{
+    color: black;
+    border: 1px solid #595555;
+    background-color: transparent;
+    height: 50px;
+    width: 200px;
+    font-family:'Caveat', cursive !important;
+    font-size: 30px;
+    transition: all 0.5s;
+    margin: auto;
+    box-shadow: 0px 3px 8px 0px #454040;
+}
+.btn-sml:hover {
+    background-color:rgba(25, 17, 34);
+    color: white;
+}
+.session_window
+{
+    background: #f0ebea;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: -10px 11px 20px 5px #000000;
+    width: 90%;
+    margin:auto;
+    margin-top:3vh;
+    margin-bottom: 10px;
+
+
+}
+.session_window hr{
+    width: 50%;
+    border-top: 1px solid #413d3d;
+}
+.main-container{
+    margin-bottom: 10px;
+}
+.main-container .row
+{
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+}
+.bio-container
+{
+    padding:10px;
+
+}
+.bio-content-parent
+{
+    box-shadow: 5px 10px 8px #888888;
+    border:1px solid #bfb5b5;
+
+}
+.msg-container
+{
+    padding: 10px;
+}
+.msgs-block-parent
+{
+    padding:10px;
+    box-shadow: 5px 10px 8px #888888;
+    border:1px solid #bfb5b5;
+
+}
+
+.bio-list
+{
+    list-style: none;
+    font-size: 16px;
+    letter-spacing: 2px;
+    width:80%;
+    margin:auto;
+    margin-top: 35px;
+    padding: 0px;
+    font-weight: bold;
+    text-align:center;
+    word-wrap:break-word;
+}
+.userPic
+{
+    width: fit-content;
+    margin: auto;
+}
+.msgsblock
+{
+    padding: 10px;
+    border: 1px solid #bbb0b0;
+    border-radius: 10px;
+    background: #05668D;
+    color: white;
+}
+.input_postmsg
+{
+    width: 90%;
+    margin: auto;
+    display: block;
+    height: 220px;
+    border: 1px solid #bbb0b0;
+    border-radius: 10px;
+}
+@media screen and (max-width: 500px) {
+    .main-header{
+      width: 80%;
+    }
+    .bio-list{
+        width: 100%;
+    }
+    .main-container .row
+    {
+        margin:0px !important;
+    }
+    .msgs-block-parent
+    {
+        height: unset !important;
+
+    }
+    #allmsgs
+    {
+        height: unset !important;
+        overflow-y:unset !important; 
+    }
+  }

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>stayAnonymous | DM</title>
+	<meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, minimum-scale=1">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+
+    <!-- <link rel="stylesheet" type="text/css" href="./css/style_p2.css"> -->
+
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Caveat|Comfortaa" rel="stylesheet">
+    
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    
+    <meta name="google-signin-client_id" content="1054803265670-ufua2fgjfsur9bo5h0djkigktqhj6jel.apps.googleusercontent.com">
+
+    <link href="https://fonts.googleapis.com/css?family=Sedgwick+Ave+Display" rel="stylesheet">
+</head>
+<body>
+    <div class="main-cont">
+        <div class="background">
+           <img src="./images/bg.jpg"> 
+        </div>
+        <div class="content-overlay" id="mainoverlaycontent">
+                <div class="main-header" id="login_window">
+                       <h3 class="head_1"> <i class="fas fa-user-secret"></i><br>stayAnonymous</h3> 
+                       <hr>
+                       <p class="abt">Know what people think about you without having any conflicts.<br>Say whatever you want to without thinking. Stay Anonymous and just say and listen.</p>
+                       <br>
+                       <div id="my-signin2" style="width:fit-content;margin:auto;"></div>
+                        <br>
+                       <button class="btn-sml" onclick=loadSession();>Get Started</button>
+                        <br><br>
+                </div>
+        </div>
+        
+    </div>
+
+</body>
+<template id="userSessionWindow">
+        <div class="session_window">
+                <h3 class="head_1" style="text-align:center"> <i class="fas fa-user-secret"></i><br>stayAnonymous</h3> 
+                <hr><br><div class="main-container">
+                        <div class="row">
+                            <div class="col-sm-6 bio-container">
+                                <div class="bio-content-parent">
+                                        <h3 style="text-align:center;font-family: 'Comfortaa', cursive; font-size: 25px;">Your Bio</h3>
+                                        <br><div class="userPic"><img src=""></div> 
+                                        <ul class="bio-list">
+                                             <li class="username"></li><br>
+                                             <li class="email"></li><br>
+                                             <li class="userlink"><center>Your Link</center><br><a href='https://stayAnonymous.herokuapp.com/postmessage.html?uid=';>https://stayAnonymous.herokuapp.com/postmessage.html?uid=</a></li><br>
+                                         </ul>
+                                </div>
+                                
+                            </div>
+                            <div class="col-sm-6 msg-container">
+                                <div class="msgs-block-parent" style="height:400px;">
+                                        <h3 style="text-align:center;font-family: 'Comfortaa', cursive; font-size: 25px;">Messages From People</h3>
+                                        <br><br>
+                                        <div id="allmsgs" style="overflow-y:auto;height: calc(100% -  90px)">
+                                        </div>
+                                              
+                                </div>    
+                                   
+                            </div>    
+                    </div>
+                    <center><h5>Designed and Developed by - <a href="https://github.com/swapnil-tiwari">Swapnil Tiwari</a></h5></center>
+                </div>
+</template>
+</html>
+<script>
+    var msgsarray=[];
+    async function fetchmsgs()
+    {
+        res= await fetch("/fetchmsgs?uid="+client.userid); 
+        msgsarray=await res.json();
+        if(msgsarray.code==205)
+        {
+            window.alert("Some Error Occured");
+        }
+        console.log(msgsarray);
+    }
+    var isReady=new Promise((resolve)=>{
+	let d=setTimeout(()=>{if(typeof document.getElementById('allmsgs')!='undefined'){resolve(true);clearTimeout(d)}}, 100)
+})
+   async function loadmsgs()
+    {
+        await fetchmsgs();
+        for (each of msgsarray)
+        {
+            message=`<div class="msgsblock">${each.msgs}</div><br>`
+           await isReady;
+            allmsgs.innerHTML+=message;
+        }
+    }
+    
+</script>
+<!-- <script>
+       
+        function onSignIn(googleUser) {
+            
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+           
+    }
+    </script>
+     -->
+<script>
+        var userDetails; var client;
+        async function onSuccess(googleUser) {
+        var profile = googleUser.getBasicProfile();
+          console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+          client={userid: profile.getId(), username: profile.getName(), email:  profile.getEmail(), imgUrl: profile.getImageUrl()};
+          userDetails=JSON.stringify({userid: profile.getId(), username: profile.getName(), email:  profile.getEmail(), imgUrl: profile.getImageUrl()});
+          res=await fetch("https://stayanonymous.herokuapp.com/register",
+                {
+                    method:'POST', headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },body:userDetails});
+        }
+        
+        function onFailure(error) {
+          console.log(error);
+        }
+        function renderButton() {
+          gapi.signin2.render('my-signin2', {
+            'scope': 'profile email',
+            'width': 240,
+            'height': 50,
+            'longtitle': true,
+            'theme': 'dark',
+            'onsuccess': onSuccess,
+            'onfailure': onFailure
+          });
+        }
+        function loadSession()
+        {
+             if (typeof(userDetails)!="undefined")
+            {
+                
+                login_window.style.display='none';
+                mainoverlaycontent.innerHTML+=userSessionWindow.innerHTML;
+                document.querySelector('.username').innerHTML+=client.username;
+                document.querySelector('.email').innerHTML+=client.email;
+                document.querySelector('.userlink a').href+=client.userid;
+                document.querySelector('.userlink a').innerHTML+=client.userid;
+                document.querySelector('.userPic img').src=client.imgUrl;
+                
+                
+            }
+            
+             else
+             {
+                 window.alert('Sign In First');
+             }
+             loadmsgs();
+
+             
+        } 
+</script>
+    
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+<script>
+        function signOut() {
+          var auth2 = gapi.auth2.getAuthInstance();
+          auth2.signOut().then(function () {
+            userDetails=null;
+            console.log('User signed out.');
+          });
+        }
+</script>

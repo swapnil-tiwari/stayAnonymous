@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>stayAnonymous | DM</title>
+	<meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, minimum-scale=1">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Caveat|Comfortaa" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css?family=Sedgwick+Ave+Display" rel="stylesheet">
+</head>
+    <script>
+        if(typeof(document.location.href.split('?uid=')[1])=="undefined")
+        {
+            window.location="https://stayanonymous.herokuapp.com";
+        };
+    </script>
+    <body>
+            <div class="main-cont">
+                    <div class="background">
+                       <img src="./images/bg.jpg"> 
+                    </div>
+                    <div class="content-overlay" id="mainoverlaycontent">
+
+                            <div class="session_window">
+                                    <h3 class="head_1" style="text-align:center"> <i class="fas fa-user-secret"></i><br>stayAnonymous</h3> 
+                                    <hr><br><div class="main-container">
+                                            <div class="row">
+                                                <div class="col-sm-6 bio-container">
+                                                    <div class="bio-content-parent">
+                                                            <h3 style="text-align:center;font-family: 'Comfortaa', cursive; font-size: 25px;">You're messaging anonymously to</h3>
+                                                            <br><div class="userPic"><img src=""></div> 
+                                                            <ul class="bio-list">
+                                                                 <li class="username"></li><br>
+                                                                 <li class="email"></li><br>
+                                                                 <li><a href='https://stayAnonymous.herokuapp.com';>Click here to get your link</a></li><br>
+                                                             </ul>
+                                                    </div>
+                                                    
+                                                </div>
+                                                <div class="col-sm-6 msg-container">
+                                                    <div class="msgs-block-parent">
+                                                            <h3 style="text-align:center;font-family: 'Comfortaa', cursive; font-size: 25px;">Post your message here</h3>
+                                                            <br>
+                                                    <form action="" method="POST"  id="postMsgForm">
+                                                                        <textarea id="msg" class='input_postmsg' name="postedmsg"></textarea>
+                                                                    
+                                                                        <br><button type="button" onclick="submitMsgForm()" class="btn btn-primary" style="margin: auto; width: fit-content;display: block;">Send Message</button>
+                                                                        
+                                                                </form>
+                                                                
+                                                    </div>    
+                                                       
+                                                </div>    
+                                        </div>
+                                    </div>
+                               </div>
+                    </div>
+            </div>            
+        
+    </body>
+ </html>
+ <script>
+        async function  submitMsgForm()
+        {
+            msgObject={};
+            msgObject.uid=client.userid;
+            msgObject.postedmsg=msg.value;
+            if((msgObject.postedmsg)=='')
+            {
+                window.alert("Type something first!");
+                return;
+            }
+            msgObject=JSON.stringify(msgObject);
+            
+            res=await fetch("/postmsg",
+                {
+                    method:'POST', headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },body:msgObject});
+            res= await res.json();
+            console.log(res);
+            if(res.code==200)
+            {
+                window.alert("Your Message has been posted anonymously!");
+                msg.value="";
+            }
+            else
+            {
+                window.alert("Some Error Occured");
+            }
+            
+            
+        }
+        async function loadUserdetails()
+        {
+            res= await fetch("/fetchuser?uid="+document.location.href.split('?uid=')[1]);
+            client= await res.json();
+            console.log(client);
+            if (client.code==204)
+            {
+                window.location="https://stayanonymous.herokuapp.com";
+            }
+            else
+            {
+                document.querySelector('.username').innerHTML+=client.username;
+                document.querySelector('.email').innerHTML+=client.useremail;
+                document.querySelector('.userPic img').src=client.imgURL;
+                
+            }
+            
+        }
+        loadUserdetails();
+        // window.addEventListener("load",loadMessagetemplate);
+        // function  ifPostMessage(hash)
+        // {
+        //     if ((hash.split('?')[0])=='#postMessage')
+        //     {
+        //         return true;
+        //     }
+        //     return false;
+        // }
+        // function loadMessagetemplate ()
+        // {
+        //     if(ifPostMessage(window.location.hash))
+        //     {
+                
+              
+        //     }
+        // }
+
+    
+ </script>
